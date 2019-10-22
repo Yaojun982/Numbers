@@ -8,20 +8,30 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private TextView number;
+    int secret = new Random().nextInt(10) + 1;
+    String TAG = MainActivity.class.getSimpleName();
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "secret: " + secret);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         number = findViewById(R.id.number);
+        final ImageView smile_image=findViewById(R.id.smile_image);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
                int num = Integer.parseInt(number.getText().toString());
                num++;
                number.setText(String.valueOf(num));
+               smile_image.setVisibility(View.VISIBLE);
+               smile_image.setAlpha(1.0f);
+               if (num == secret){
+                   Toast.makeText(MainActivity.this, "hahha", Toast.LENGTH_LONG).show();
+                   smile_image.setImageResource(R.drawable.shocked);
+               }else{
+                   smile_image.setImageResource(R.drawable.smile);
+                   smile_image.animate().alpha(0.0f).setDuration(1200);
+               }
 
 
             }
